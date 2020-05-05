@@ -1,0 +1,100 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Sample API",
+        "description": "Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.",
+        "version": "0.1.9"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "Optional server description, e.g. Main (production) server"
+        },
+        {
+            "url": "http://api.example.com/v1",
+            "description": "Optional server description, e.g. Main (production) server"
+        },
+        {
+            "url": "http://staging-api.example.com",
+            "description": "Optional server description, e.g. Internal staging server for testing"
+        }
+    ],
+    "paths": {
+        "/monitor_image": {
+            "post": {
+                "summary": "Upload image from end-user device.",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-IMAGE-ID",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-MONITOR-ID",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-TIMESTAMP",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "image/jpeg": {
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "metadata about the image",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties":{
+                                        "frameRate":{
+                                            "type": "number",
+                                            "description": "Approximate frame rate from the specific monitor"
+                                        },
+                                        "monitorId":{
+                                            "type": "string",
+                                            "format":"guid",
+                                            "description": "id of the sending monitor"
+                                        },
+                                        "nextImageId":{
+                                            "type": "number",
+                                            "description": "next image id"
+                                        },
+                                        "minResolutionWidth":{
+                                            "type": "number",
+                                            "description": "optional requested width"
+                                        },
+                                        "minResolutionHeight":{
+                                            "type": "number",
+                                            "description": "optional requested width"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
